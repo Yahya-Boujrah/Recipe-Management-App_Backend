@@ -23,8 +23,6 @@ public class Instruction {
     @Field(type = FieldType.Text)
     private String description;
 
-//    @Field(type = FieldType.Object)
-//    @ManyToOne
-//    @JoinColumn(name = "recipe_id", nullable = false)
-//    private Recipe recipe;
+    @Field(type = FieldType.Nested)
+    private Recipe recipe;
 }

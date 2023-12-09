@@ -6,6 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.util.List;
 
 
 @Document(indexName = "recipe")
@@ -28,22 +29,13 @@ public class Recipe {
     @Field(type = FieldType.Text)
     private String picture;
 
-//    @Field(type = FieldType.Object)
-//    @ManyToOne
-//    @JoinColumn(name = "category_id", nullable = false)
-//    private Category category;
-//
-//    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<Ingredient> ingredients;
-//
-//    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<Instruction> instructions;
-//
-//    @Field(type = FieldType.Date)
-//    @CreationTimestamp
-//    private LocalDateTime createdAt;
-//
-//    @Field(type = FieldType.Date)
-//    @UpdateTimestamp
-//    private LocalDateTime updatedAt;
+    @Field(type = FieldType.Nested)
+    private Category category;
+
+    @Field(type = FieldType.Nested)
+    private List<Ingredient> ingredients;
+
+    @Field(type = FieldType.Nested)
+    private List<Instruction> instructions;
+
 }
