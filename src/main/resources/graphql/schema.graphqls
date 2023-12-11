@@ -1,0 +1,37 @@
+type Query{
+    findRecipeById(id : String) : Recipe
+    findAllRecipes : [Recipe]
+}
+
+
+type Recipe{
+    id: String
+    title: String
+    description: String
+    picture: String
+    category: Category
+    ingredients: [Ingredient]
+    instructions: [Instruction]
+}
+
+type Instruction {
+    id: Int
+    number: Int
+    description: String
+#    recipe: Recipe
+}
+
+type Ingredient {
+    id: Int
+    name: String
+    description: String
+#    recipe: Recipe
+}
+
+type Category {
+    id: Int
+    name: String
+    recipes: [Recipe]
+}
+
+

@@ -3,6 +3,7 @@ package com.RecipeManagementApp_Backend.services;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.*;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.elasticsearch.core.IndexResponse;
 import com.RecipeManagementApp_Backend.entities.Recipe;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class RecipeService {
 
     private final ElasticsearchClient elasticsearchClient;
 
-    public String index( Recipe recipe ) throws IOException {
+    public String indexRecipe( Recipe recipe ) throws IOException {
         IndexResponse response= elasticsearchClient.index(i->i
                 .index("recipe")
                 .id(recipe.getId())
@@ -33,7 +34,7 @@ public class RecipeService {
 
     }
 
-    public Recipe findById(String recipeId) throws IOException {
+    public Recipe findRecipeById(String recipeId) throws IOException {
         return elasticsearchClient.get(g->g.index("recipe")
                 .id(recipeId),Recipe.class)
                 .source();
@@ -48,7 +49,7 @@ public class RecipeService {
                 :"Document has been deleted");
     }
 
-    public List<Recipe> findAll() throws IOException {
+    public List<Recipe> findAllRecipes() throws IOException {
         SearchRequest request = SearchRequest.of(s->s.index("recipe"));
         SearchResponse<Recipe> response = elasticsearchClient.search(request , Recipe.class);
 
@@ -58,6 +59,5 @@ public class RecipeService {
                 .collect(Collectors.toList());
 
     }
-
 
 }
