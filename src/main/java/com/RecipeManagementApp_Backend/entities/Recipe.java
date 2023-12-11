@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.List;
 
 
-@Document(indexName = "recipe")
+@Document(indexName = "recipe", createIndex = false)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class Recipe {
 
     @Id
     @Field(type = FieldType.Keyword)
-    private Long id;
+    private String id;
 
     @Field(type = FieldType.Text)
     private String title;
@@ -29,7 +29,7 @@ public class Recipe {
     @Field(type = FieldType.Text)
     private String picture;
 
-    @Field(type = FieldType.Nested)
+    @Field(type = FieldType.Object)
     private Category category;
 
     @Field(type = FieldType.Nested)

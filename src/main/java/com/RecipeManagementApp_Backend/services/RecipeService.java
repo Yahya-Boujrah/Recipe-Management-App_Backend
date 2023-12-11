@@ -1,13 +1,16 @@
 package com.RecipeManagementApp_Backend.services;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch.core.IndexResponse;
+import co.elastic.clients.elasticsearch.core.*;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.RecipeManagementApp_Backend.entities.Recipe;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +21,7 @@ public class RecipeService {
     public String index( Recipe recipe ) throws IOException {
         IndexResponse response= elasticsearchClient.index(i->i
                 .index("recipe")
-                .id(String.valueOf(recipe.getId()))
+                .id(recipe.getId())
                 .document(recipe));
 
         Map<String,String> responseMessages = Map.of(
@@ -27,6 +30,32 @@ public class RecipeService {
         );
 
         return responseMessages.getOrDefault(response.result().name(),"Error has occurred");
+
+    }
+
+    public Recipe findById(String recipeId) throws IOException {
+        return elasticsearchClient.get(g->g.index("recipe")
+                .id(recipeId),Recipe.class)
+                .source();
+    }
+
+    public String deleteById(String recipeId) throws IOException {
+        DeleteRequest deleteRequest = DeleteRequest.of(d->d.index("recipe").id(recipeId));
+        DeleteResponse response = elasticsearchClient.delete(deleteRequest);
+
+        return (response.result().name().equalsIgnoreCase("NOT_FOUND")
+                ?"Document not found with id"+recipeId
+                :"Document has been deleted");
+    }
+
+    public List<Recipe> findAll() throws IOException {
+        SearchRequest request = SearchRequest.of(s->s.index("recipe"));
+        SearchResponse<Recipe> response = elasticsearchClient.search(request , Recipe.class);
+
+        return response.hits().hits()
+                .stream()
+                .map(Hit::source)
+                .collect(Collectors.toList());
 
     }
 

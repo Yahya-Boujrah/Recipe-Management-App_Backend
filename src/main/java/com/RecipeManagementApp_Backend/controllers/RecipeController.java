@@ -5,10 +5,7 @@ import com.RecipeManagementApp_Backend.services.RecipeService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/recipe")
@@ -20,11 +17,31 @@ public class RecipeController {
     @SneakyThrows
     @PostMapping
     public ResponseEntity<?> index(@RequestBody Recipe recipe){
-
         return ResponseEntity.ok(
                 recipeService.index(recipe)
         );
+    }
+    @SneakyThrows
+    @GetMapping
+    public ResponseEntity<?> findAll(){
+        return ResponseEntity.ok(
+                recipeService.findAll()
+        );
+    }
+    @SneakyThrows
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable String id ){
+        return ResponseEntity.ok(
+                recipeService.deleteById(id)
+        );
+    }
 
+    @SneakyThrows
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable String id ){
+        return ResponseEntity.ok(
+                recipeService.findById(id)
+        );
     }
 
 }

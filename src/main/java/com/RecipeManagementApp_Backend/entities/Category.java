@@ -19,7 +19,7 @@ import java.util.List;
 public class Category {
     @Id
     @Field(type = FieldType.Keyword)
-    private Long id;
+    private String id;
 
     @Field(type = FieldType.Text)
     private String name;
