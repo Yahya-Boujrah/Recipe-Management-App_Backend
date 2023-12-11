@@ -3,28 +3,31 @@ package com.RecipeManagementApp_Backend.controllers;
 import com.RecipeManagementApp_Backend.entities.Recipe;
 import com.RecipeManagementApp_Backend.services.RecipeService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
 
-@RestController
-@RequestMapping("/api/recipe")
 @RequiredArgsConstructor
+
+
+@Controller
 public class RecipeController {
 
     private final RecipeService recipeService;
 
-    @SneakyThrows
-    @PostMapping
-    public ResponseEntity<?> index(@RequestBody Recipe recipe){
+//    @SneakyThrows
+//    @PostMapping
+//    public ResponseEntity<?> index(@RequestBody Recipe recipe){
+//
+//        return ResponseEntity.ok(
+//                recipeService.index(recipe)
+//        );
+//
+//    }
 
-        return ResponseEntity.ok(
-                recipeService.index(recipe)
-        );
-
+    @QueryMapping
+    public Recipe recipeById(@Argument Integer id){
+        return recipeService.getById(id);
     }
 
 }

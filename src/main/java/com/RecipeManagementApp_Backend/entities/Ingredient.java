@@ -15,7 +15,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class Ingredient {
     @Id
     @Field(type = FieldType.Keyword)
-    private Long id;
+    private Integer id;
 
     @Field(type = FieldType.Text)
     private String name;

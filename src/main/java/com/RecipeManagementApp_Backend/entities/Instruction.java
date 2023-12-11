@@ -15,7 +15,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class Instruction {
     @Id
     @Field(type = FieldType.Keyword)
-    private Long id;
+    private Integer id;
 
     @Field(type = FieldType.Integer)
     private int number;
