@@ -1,10 +1,14 @@
 type Query{
     recipeById(id : String) : Recipe
     allRecipes : [Recipe]
+    recipesByCategory(category : String) : [Recipe]
+    recipesFuzzySearch(title : String) : [Recipe]
+    searchRecipesInFields(searchTerm :  String, fields : [String]) : [Recipe]
 }
 
 type Mutation{
     addRecipe(recipeInput : RecipeInput) : Recipe
+    deleteRecipe(id : String) : String
 }
 
 
