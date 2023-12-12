@@ -1,6 +1,10 @@
 type Query{
-    findRecipeById(id : String) : Recipe
-    findAllRecipes : [Recipe]
+    recipeById(id : String) : Recipe
+    allRecipes : [Recipe]
+}
+
+type Mutation{
+    addRecipe(recipeInput : RecipeInput) : Recipe
 }
 
 
@@ -18,20 +22,28 @@ type Instruction {
     id: Int
     number: Int
     description: String
-#    recipe: Recipe
+    #    recipe: Recipe
 }
 
 type Ingredient {
     id: Int
     name: String
     description: String
-#    recipe: Recipe
+    #    recipe: Recipe
 }
 
 type Category {
     id: Int
     name: String
-    recipes: [Recipe]
+    #    recipes: [Recipe]
 }
 
-
+input RecipeInput {
+    id: String
+    title: String
+    description: String
+    #    picture: String
+    #    category: Category
+    #    ingredients: [Ingredient]
+    #    instructions: [Instruction]
+}

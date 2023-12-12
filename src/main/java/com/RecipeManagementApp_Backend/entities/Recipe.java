@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.List;
 
 
-@Document(indexName = "recipe", createIndex = false)
+@Document(indexName = "recipe")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
