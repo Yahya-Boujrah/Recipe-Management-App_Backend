@@ -24,6 +24,4 @@ public class Category {
     @Field(type = FieldType.Text)
     private String name;
 
-//    @Field(type = FieldType.Nested)
-//    private List<Recipe> recipes;
 }

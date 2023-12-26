@@ -17,37 +17,70 @@ type Recipe{
     title: String
     description: String
     picture: String
+    createdAt : String
+    rating: Int
     category: Category
     ingredients: [Ingredient]
     instructions: [Instruction]
+    user: User
 }
 
 type Instruction {
-    id: Int
+    id: String
     number: Int
     description: String
-    #    recipe: Recipe
 }
 
 type Ingredient {
-    id: Int
+    id: String
     name: String
     description: String
-    #    recipe: Recipe
 }
 
 type Category {
     id: Int
     name: String
-    #    recipes: [Recipe]
+}
+
+type User {
+    id: String
+    firstName :String
+    lastName : String
+    email:String
+    createdAt: String
 }
 
 input RecipeInput {
     id: String
     title: String
     description: String
-    #    picture: String
-    #    category: Category
-    #    ingredients: [Ingredient]
-    #    instructions: [Instruction]
+    picture: String
+    user: UserInput
+    category: CategoryInput
+    ingredients: [IngredientInput]
+    instructions: [InstructionInput]
+}
+input InstructionInput {
+    id: String
+    number: Int
+    description: String
+}
+
+input IngredientInput {
+    id: String
+    name: String
+    description: String
+}
+
+input CategoryInput {
+    id: Int
+    name: String
+}
+
+input UserInput {
+    id: String
+    firstName :String
+    lastName : String
+    email:String
+    createdAt: String
 }

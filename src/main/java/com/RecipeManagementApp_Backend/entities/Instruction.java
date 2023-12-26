@@ -15,7 +15,6 @@ public class Instruction {
     @Field(type = FieldType.Keyword)
     private String id;
 
-
     @Field(type = FieldType.Integer)
     private int number;
 
