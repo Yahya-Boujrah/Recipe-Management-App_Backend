@@ -45,7 +45,7 @@ type Ingredient {
 }
 
 type Category {
-    id: Int
+    id: String
     name: String
 }
 

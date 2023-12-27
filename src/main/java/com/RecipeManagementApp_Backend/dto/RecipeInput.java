@@ -1,5 +1,6 @@
 package com.RecipeManagementApp_Backend.dto;
 
+
 import com.RecipeManagementApp_Backend.entities.Category;
 import com.RecipeManagementApp_Backend.entities.Ingredient;
 import com.RecipeManagementApp_Backend.entities.Instruction;
@@ -9,7 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -29,8 +30,10 @@ public class RecipeInput {
     private String picture;
 
     private Category category;
-//    private User user;
-    private LocalDateTime createdAt;
+
+    private User user;
+
+    private Date createdAt;
 
     private List<Ingredient> ingredients;
 

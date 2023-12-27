@@ -60,6 +60,10 @@ public class RecipeController {
                 .instructions(recipeInput.getInstructions())
 //               .user(user)
                 .createdAt(new Date())
+                .picture(recipeInput.getPicture())
+                .category(recipeInput.getCategory())
+                .ingredients(recipeInput.getIngredients())
+                .instructions(recipeInput.getInstructions())
                 .build();
         System.out.println(recipe.getCreatedAt());
         recipeService.indexRecipe(recipe);
