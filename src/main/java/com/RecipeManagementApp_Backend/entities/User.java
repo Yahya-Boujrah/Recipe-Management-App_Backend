@@ -2,12 +2,10 @@ package com.RecipeManagementApp_Backend.entities;
 
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -46,7 +44,6 @@ public class User implements UserDetails{
     private Role role;
 
     @Field(type = FieldType.Date)
-    @CreatedDate
     private LocalDateTime createdAt;
 
     @Override
