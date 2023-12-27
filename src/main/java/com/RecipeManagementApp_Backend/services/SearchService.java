@@ -86,14 +86,19 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<Recipe> recipesWithHigherRating(float rating) throws IOException{
+    public List<Recipe> sortRecipesByRating(float rating) throws IOException{
         SearchResponse<Recipe> searchResponse = elasticsearchClient.search(s -> s
                 .index("recipe")
                 .query(q -> q
                         .range(t -> t
                                 .field("rating")
-                                .gte(JsonData.of(rating))
+                                .gte(JsonData.of(0))
                         )
+                )
+                .sort( so -> so
+                        .field(FieldSort.of(f -> f
+                                .field("rating")
+                                .order(SortOrder.Desc)))
                 ),
                 Recipe.class);
 
@@ -140,4 +145,22 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
+    public Recipe getLatestRecipe() throws IOException {
+        SearchResponse<Recipe> searchResponse = elasticsearchClient.search(s -> s
+                        .index("recipe")
+                        .sort(so -> so
+                                .field(FieldSort.of(f -> f
+                                        .field("createdAt")
+                                        .order(SortOrder.Desc)))
+                        ).size(1),
+                Recipe.class);
+
+        List<Hit<Recipe>> hits = searchResponse.hits().hits();
+
+        if (!hits.isEmpty()) {
+            return hits.get(0).source();
+        } else {
+            return null;
+        }
+    }
 }
