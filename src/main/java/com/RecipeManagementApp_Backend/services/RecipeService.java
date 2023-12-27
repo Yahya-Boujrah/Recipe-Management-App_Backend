@@ -20,6 +20,9 @@ public class RecipeService {
     private final ElasticsearchClient elasticsearchClient;
 
     public String indexRecipe( Recipe recipe ) throws IOException {
+
+        System.out.println(recipe);
+
         IndexResponse response= elasticsearchClient.index(i->i
                 .index("recipe")
                 .id(recipe.getId())
@@ -29,6 +32,8 @@ public class RecipeService {
                 "Created","Document has been created",
                 "Updated", "Document has been updated"
         );
+
+        System.out.println(response);
 
         return responseMessages.getOrDefault(response.result().name(),"Error has occurred");
 

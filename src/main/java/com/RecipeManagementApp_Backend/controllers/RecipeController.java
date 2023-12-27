@@ -46,6 +46,10 @@ public class RecipeController {
                 .description(recipeInput.getDescription())
                 .rating(recipeInput.getRating())
                 .createdAt(new Date())
+                .picture(recipeInput.getPicture())
+                .category(recipeInput.getCategory())
+                .ingredients(recipeInput.getIngredients())
+                .instructions(recipeInput.getInstructions())
                 .build();
         System.out.println(recipe.getCreatedAt());
         recipeService.indexRecipe(recipe);
