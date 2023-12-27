@@ -11,6 +11,6 @@ public class ScalarConfig {
 
     @Bean
     public RuntimeWiringConfigurer runtimeWiringConfigurer() {
-        return wiringBuilder -> wiringBuilder.scalar(ExtendedScalars.DateTime);
+        return wiringBuilder -> wiringBuilder.scalar(ExtendedScalars.Date);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -44,7 +45,7 @@ public class RecipeController {
                 .title(recipeInput.getTitle())
                 .description(recipeInput.getDescription())
                 .rating(recipeInput.getRating())
-                .createdAt(LocalDateTime.now())
+                .createdAt(new Date())
                 .build();
         System.out.println(recipe.getCreatedAt());
         recipeService.indexRecipe(recipe);
@@ -83,7 +84,13 @@ public class RecipeController {
 
     @SneakyThrows
     @QueryMapping
-    public List<Recipe> recipesCreatedAfterDate(@Argument LocalDateTime date){
+    public List<Recipe> recipesCreatedAfterDate(@Argument String date){
         return searchService.recipesCreatedAfterDate(date);
+    }
+
+    @SneakyThrows
+    @QueryMapping
+    public List<Recipe> top6RatedRecipes(){
+        return searchService.top6RatedRecipes();
     }
 }

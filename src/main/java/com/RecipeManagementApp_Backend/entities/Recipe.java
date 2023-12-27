@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 
@@ -42,7 +42,7 @@ public class Recipe{
     private User user;
 
     @Field(type = FieldType.Date)
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
     @Field(type = FieldType.Nested)
     private List<Ingredient> ingredients;

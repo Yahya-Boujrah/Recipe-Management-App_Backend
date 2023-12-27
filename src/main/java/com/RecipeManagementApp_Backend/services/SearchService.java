@@ -1,6 +1,8 @@
 package com.RecipeManagementApp_Backend.services;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldSort;
+import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
@@ -11,8 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -56,16 +59,23 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<Recipe> recipesCreatedAfterDate(LocalDateTime localDateTime) throws IOException {
-        String formattedDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(localDateTime);
-        System.out.println(localDateTime);
+    public List<Recipe> recipesCreatedAfterDate(String date) throws IOException, ParseException {
+
+        System.out.println(date);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate = dateFormat.parse(date);
+        long unixTimestamp = parsedDate.getTime();
+
+        System.out.println("Unix Timestamp: " + unixTimestamp);
+
 
         SearchResponse<Recipe> searchResponse = elasticsearchClient.search(s -> s
                         .index("recipe")
                         .query(q -> q
                                 .range(t -> t
-                                        .field("CreatedDate")
-                                        .gt(JsonData.of(formattedDate))
+                                        .field("createdAt")
+                                        .gte(JsonData.of(unixTimestamp))
                                 )
                         ) ,
                 Recipe.class);
@@ -85,6 +95,27 @@ public class SearchService {
                                 .gte(JsonData.of(rating))
                         )
                 ),
+                Recipe.class);
+
+        return searchResponse.hits().hits()
+                .stream()
+                .map(Hit::source)
+                .collect(Collectors.toList());
+    }
+
+    public List<Recipe> top6RatedRecipes() throws IOException{
+        SearchResponse<Recipe> searchResponse = elasticsearchClient.search(s -> s
+                        .index("recipe")
+                        .query(q -> q
+                                .range(t -> t
+                                        .field("rating")
+                                        .gte(JsonData.of(0))
+                                )
+                        ).sort( so -> so
+                                .field(FieldSort.of(f -> f
+                                        .field("rating")
+                                        .order(SortOrder.Desc)))
+                        ).size(6),
                 Recipe.class);
 
         return searchResponse.hits().hits()

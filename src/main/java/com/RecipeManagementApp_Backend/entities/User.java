@@ -39,7 +39,6 @@ public class User implements UserDetails{
     @Field(type = FieldType.Text)
     private String email;
 
-    @JsonIgnore
     @Field(type = FieldType.Keyword)
     private String password;
 
@@ -47,7 +46,6 @@ public class User implements UserDetails{
     private Role role;
 
     @Field(type = FieldType.Date)
-    @CreatedDate
     private LocalDateTime createdAt;
 
     @Override
