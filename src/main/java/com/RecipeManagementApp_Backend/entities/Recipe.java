@@ -2,7 +2,6 @@ package com.RecipeManagementApp_Backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -18,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Recipe {
+public class Recipe{
 
     @Id
     @Field(type = FieldType.Keyword)
@@ -34,7 +33,7 @@ public class Recipe {
     private String picture;
 
     @Field(type = FieldType.Integer)
-    private Integer rating = 0;
+    private float rating = 0;
 
     @Field(type = FieldType.Object)
     private Category category;
@@ -43,7 +42,6 @@ public class Recipe {
     private User user;
 
     @Field(type = FieldType.Date)
-    @CreatedDate
     private LocalDateTime createdAt;
 
     @Field(type = FieldType.Nested)

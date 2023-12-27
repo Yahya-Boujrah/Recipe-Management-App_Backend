@@ -17,6 +17,9 @@ public class RecipeInput {
 
     private String description;
 
+    private float rating;
+
+
 //    private String picture;
 //
 //    private Category category;

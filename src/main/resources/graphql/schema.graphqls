@@ -1,9 +1,13 @@
+scalar DateTime
+
 type Query{
     recipeById(id : String) : Recipe
     allRecipes : [Recipe]
     recipesByCategory(category : String) : [Recipe]
     recipesFuzzySearch(title : String) : [Recipe]
     searchRecipesInFields(searchTerm :  String, fields : [String]) : [Recipe]
+    recipesWithHigherRating(rating : Float) : [Recipe]
+    recipesCreatedAfterDate(date : DateTime) : [Recipe]
 }
 
 type Mutation{
@@ -17,12 +21,13 @@ type Recipe{
     title: String
     description: String
     picture: String
+    rating: Float
     createdAt : String
-    rating: Int
     category: Category
     ingredients: [Ingredient]
     instructions: [Instruction]
     user: User
+    CreatedAt: DateTime
 }
 
 type Instruction {
@@ -55,6 +60,7 @@ input RecipeInput {
     title: String
     description: String
     picture: String
+    rating: Float
     user: UserInput
     category: CategoryInput
     ingredients: [IngredientInput]

@@ -12,6 +12,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -42,7 +43,10 @@ public class RecipeController {
                 .id(recipeInput.getId())
                 .title(recipeInput.getTitle())
                 .description(recipeInput.getDescription())
+                .rating(recipeInput.getRating())
+                .createdAt(LocalDateTime.now())
                 .build();
+        System.out.println(recipe.getCreatedAt());
         recipeService.indexRecipe(recipe);
         System.out.println(recipe.getId());
         return recipeService.findRecipeById(recipe.getId());
@@ -71,4 +75,15 @@ public class RecipeController {
         return searchService.searchRecipesInFields(searchTerm, fields);
     }
 
+    @SneakyThrows
+    @QueryMapping
+    public List<Recipe> recipesWithHigherRating(@Argument float rating){
+        return searchService.recipesWithHigherRating(rating);
+    }
+
+    @SneakyThrows
+    @QueryMapping
+    public List<Recipe> recipesCreatedAfterDate(@Argument LocalDateTime date){
+        return searchService.recipesCreatedAfterDate(date);
+    }
 }

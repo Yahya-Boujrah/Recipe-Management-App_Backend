@@ -1,4 +1,4 @@
-package com.RecipeManagementApp_Backend.services.searchUtil;
+package com.RecipeManagementApp_Backend.util;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.FuzzyQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
