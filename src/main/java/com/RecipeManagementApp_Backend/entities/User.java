@@ -39,7 +39,6 @@ public class User implements UserDetails{
     @Field(type = FieldType.Text)
     private String email;
 
-    @JsonIgnore
     @Field(type = FieldType.Keyword)
     private String password;
 

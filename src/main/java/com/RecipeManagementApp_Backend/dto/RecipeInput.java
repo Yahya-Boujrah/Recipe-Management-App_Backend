@@ -1,9 +1,16 @@
 package com.RecipeManagementApp_Backend.dto;
 
+import com.RecipeManagementApp_Backend.entities.Category;
+import com.RecipeManagementApp_Backend.entities.Ingredient;
+import com.RecipeManagementApp_Backend.entities.Instruction;
+import com.RecipeManagementApp_Backend.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,13 +26,14 @@ public class RecipeInput {
 
     private float rating;
 
+    private String picture;
 
-//    private String picture;
-//
-//    private Category category;
-//
-//    private List<Ingredient> ingredients;
-//
-//    private List<Instruction> instructions;
+    private Category category;
+//    private User user;
+    private LocalDateTime createdAt;
+
+    private List<Ingredient> ingredients;
+
+    private List<Instruction> instructions;
 
 }

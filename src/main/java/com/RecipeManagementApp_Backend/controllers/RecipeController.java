@@ -2,6 +2,8 @@ package com.RecipeManagementApp_Backend.controllers;
 
 import com.RecipeManagementApp_Backend.dto.RecipeInput;
 import com.RecipeManagementApp_Backend.entities.Recipe;
+import com.RecipeManagementApp_Backend.entities.User;
+import com.RecipeManagementApp_Backend.repos.UserRepo;
 import com.RecipeManagementApp_Backend.services.RecipeService;
 import com.RecipeManagementApp_Backend.services.SearchService;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +12,11 @@ import lombok.SneakyThrows;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,6 +26,7 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     private final SearchService searchService;
+    private final UserRepo userRepo;
 
     @SneakyThrows
     @QueryMapping
@@ -39,16 +44,26 @@ public class RecipeController {
     @SneakyThrows
     @MutationMapping
     public Recipe addRecipe(@Argument RecipeInput recipeInput){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("email " + email);
+//        User user = userRepo.findByEmail(email).orElseThrow();
+
+        System.out.println(recipeInput);
         Recipe recipe = Recipe.builder()
                 .id(recipeInput.getId())
                 .title(recipeInput.getTitle())
                 .description(recipeInput.getDescription())
                 .rating(recipeInput.getRating())
                 .createdAt(LocalDateTime.now())
+                .picture(recipeInput.getPicture())
+//                .createdAt()
+                .category(recipeInput.getCategory())
+                .ingredients(recipeInput.getIngredients())
+                .instructions(recipeInput.getInstructions())
+//                .user(user)
                 .build();
         System.out.println(recipe.getCreatedAt());
         recipeService.indexRecipe(recipe);
-        System.out.println(recipe.getId());
         return recipeService.findRecipeById(recipe.getId());
     }
 
@@ -71,7 +86,9 @@ public class RecipeController {
 
     @SneakyThrows
     @QueryMapping
-    public List<Recipe> searchRecipesInFields(@Argument String searchTerm, @Argument List<String> fields){
+    public List<Recipe> searchRecipesInFields(@Argument String searchTerm/*, @Argument List<String> fields*/){
+        List<String> fields = Arrays.asList("title", "description", "ingredients","instructions");
+
         return searchService.searchRecipesInFields(searchTerm, fields);
     }
 
