@@ -5,7 +5,7 @@ type Query{
     allRecipes : [Recipe]
     recipesByCategory(category : String) : [Recipe]
     recipesFuzzySearch(title : String) : [Recipe]
-    searchRecipesInFields(searchTerm :  String, fields : [String]) : [Recipe]
+    searchRecipesInFields(searchTerm :  String) : [Recipe]
     recipesWithHigherRating(rating : Float) : [Recipe]
     recipesCreatedAfterDate(date : String) : [Recipe]
     top6RatedRecipes : [Recipe]
@@ -15,7 +15,6 @@ type Mutation{
     addRecipe(recipeInput : RecipeInput) : Recipe
     deleteRecipe(id : String) : String
 }
-
 
 type Recipe{
     id: String

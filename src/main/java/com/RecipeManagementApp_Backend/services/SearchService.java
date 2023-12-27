@@ -124,4 +124,20 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
+    public List<Recipe> sortRecipesByDate() throws IOException{
+        SearchResponse<Recipe> searchResponse = elasticsearchClient.search(s -> s
+                        .index("recipe")
+                        .sort( so -> so
+                                .field(FieldSort.of(f -> f
+                                        .field("createdAt")
+                                        .order(SortOrder.Desc)))
+                        ),
+                Recipe.class);
+
+        return searchResponse.hits().hits()
+                .stream()
+                .map(Hit::source)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -28,6 +28,7 @@ public class RecipeService {
                 .id(recipe.getId())
                 .document(recipe));
 
+        System.out.println( response.result().jsonValue());
         Map<String,String> responseMessages = Map.of(
                 "Created","Document has been created",
                 "Updated", "Document has been updated"
@@ -36,7 +37,6 @@ public class RecipeService {
         System.out.println(response);
 
         return responseMessages.getOrDefault(response.result().name(),"Error has occurred");
-
     }
 
     public Recipe findRecipeById(String recipeId) throws IOException {
