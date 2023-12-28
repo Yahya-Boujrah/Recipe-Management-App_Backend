@@ -4,6 +4,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.FieldSort;
 import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Supplier;
@@ -26,21 +28,40 @@ public class SearchService {
 
     private final ElasticsearchClient elasticsearchClient;
 
-    public List<Recipe> recipesByCategory(String categoryName) throws IOException {
-        Supplier<Query> supplier = SearchUtil.supplierWithCategory(categoryName);
-        SearchResponse<Recipe> searchResponse  = elasticsearchClient
-                .search(s->s.index("recipe").query(supplier.get()), Recipe.class);
-
-        return searchResponse.hits().hits()
-                .stream()
-                .map(Hit::source)
-                .collect(Collectors.toList());
-    }
-
     public List<Recipe> searchRecipesInFields(String searchTerm, List<String> fields) throws IOException {
-        Supplier<Query> supplier = SearchUtil.supplierFindRecipes(searchTerm, fields);
-        SearchResponse<Recipe> searchResponse  = elasticsearchClient
-                .search(s->s.index("recipe").query(supplier.get()), Recipe.class);
+        Query nestedIngredientsQuery = Query.of(q -> q
+                .nested(n -> n
+                        .path("ingredients")
+                        .query(nq -> nq
+                                .multiMatch(mm -> mm
+                                        .query(searchTerm)
+                                        .fields(Arrays.asList("ingredients.description"))))));
+
+        Query nestedInstructionsQuery = Query.of(q -> q
+                .nested(n -> n
+                        .path("instructions")
+                        .query(nq -> nq
+                                .multiMatch(mm -> mm
+                                        .query(searchTerm)
+                                        .fields(Arrays.asList("instructions.description"))))));
+
+        Query regularFieldsQuery = Query.of(q -> q
+                .multiMatch(mm -> mm
+                        .query(searchTerm)
+                        .fields(fields.stream().filter(f ->
+                                        !f.startsWith("ingredients.") && !f.startsWith("instructions."))
+                                .collect(Collectors.toList()))));
+
+        Query finalQuery = Query.of(q -> q
+                .bool(b -> b
+                        .should(nestedIngredientsQuery)
+                        .should(nestedInstructionsQuery)
+                        .should(regularFieldsQuery)));
+
+        SearchResponse<Recipe> searchResponse = elasticsearchClient.search(SearchRequest.of(s -> s
+                        .index("recipe")
+                        .query(finalQuery)),
+                Recipe.class);
 
         return searchResponse.hits().hits()
                 .stream()
@@ -89,12 +110,7 @@ public class SearchService {
     public List<Recipe> sortRecipesByRating() throws IOException{
         SearchResponse<Recipe> searchResponse = elasticsearchClient.search(s -> s
                 .index("recipe")
-                .query(q -> q
-                        .range(t -> t
-                                .field("rating")
-                                .gte(JsonData.of(0))
-                        )
-                )
+                        .size(12)
                 .sort( so -> so
                         .field(FieldSort.of(f -> f
                                 .field("rating")
@@ -132,6 +148,7 @@ public class SearchService {
     public List<Recipe> sortRecipesByDate() throws IOException{
         SearchResponse<Recipe> searchResponse = elasticsearchClient.search(s -> s
                         .index("recipe")
+                        .size(12)
                         .sort( so -> so
                                 .field(FieldSort.of(f -> f
                                         .field("createdAt")
@@ -174,4 +191,22 @@ public class SearchService {
                 .map(Hit::source)
                 .collect(Collectors.toList());
     }
+
+    public List<Recipe> recipesByCategory(String categoryName) throws IOException{
+        SearchResponse<Recipe> searchResponse = elasticsearchClient.search(s -> s
+                        .index("recipe")
+                        .query( q -> q
+                                .matchPhrase(m -> m
+                                        .field("category.name")
+                                        .query(categoryName)))
+                        ,
+                Recipe.class);
+
+        return searchResponse.hits().hits()
+                .stream()
+                .map(Hit::source)
+                .collect(Collectors.toList());
+    }
+
+
 }

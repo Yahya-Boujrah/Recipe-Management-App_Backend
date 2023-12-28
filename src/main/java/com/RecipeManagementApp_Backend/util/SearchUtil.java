@@ -14,10 +14,6 @@ public class SearchUtil {
         return multimatch.query(searchTerm).fields(fields).analyzer("standard").build();
 
     }
-    public static Supplier<Query> supplierFindRecipes(String searchTerm, List<String> fields){
-
-        return ()-> Query.of(q-> q.multiMatch(findRecipes(searchTerm, fields)));
-    }
 
     //search with approximate terms
     public static FuzzyQuery createFuzzyQuery(String approximateRecipeName){

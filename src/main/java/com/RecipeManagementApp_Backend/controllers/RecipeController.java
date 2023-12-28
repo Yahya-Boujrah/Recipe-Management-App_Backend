@@ -2,7 +2,6 @@ package com.RecipeManagementApp_Backend.controllers;
 
 import com.RecipeManagementApp_Backend.dto.RecipeInput;
 import com.RecipeManagementApp_Backend.entities.Recipe;
-import com.RecipeManagementApp_Backend.entities.User;
 import com.RecipeManagementApp_Backend.repos.UserRepo;
 import com.RecipeManagementApp_Backend.services.RecipeService;
 import com.RecipeManagementApp_Backend.services.SearchService;
@@ -37,7 +36,7 @@ public class RecipeController {
 
     @SneakyThrows
     @QueryMapping
-    public List<Recipe> allRecipes(){
+    public Iterable<Recipe> allRecipes(){
         return recipeService.findAllRecipes();
     }
 
@@ -53,7 +52,7 @@ public class RecipeController {
                 .id(recipeInput.getId())
                 .title(recipeInput.getTitle())
                 .description(recipeInput.getDescription())
-                .rating(4.8f)
+                .rating(3f)
                 .category(recipeInput.getCategory())
                 .ingredients(recipeInput.getIngredients())
                 .instructions(recipeInput.getInstructions())
@@ -63,7 +62,7 @@ public class RecipeController {
                 .category(recipeInput.getCategory())
                 .ingredients(recipeInput.getIngredients())
                 .instructions(recipeInput.getInstructions())
-                .picture("/assets/recipes/cookies.jpg")
+                .picture("/assets/recipes/Fried-Egg-Tortilla.jpeg")
                 .build();
         System.out.println(recipe.getCreatedAt());
         recipeService.indexRecipe(recipe);
