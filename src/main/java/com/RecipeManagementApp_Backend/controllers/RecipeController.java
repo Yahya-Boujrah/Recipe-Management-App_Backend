@@ -53,17 +53,17 @@ public class RecipeController {
                 .id(recipeInput.getId())
                 .title(recipeInput.getTitle())
                 .description(recipeInput.getDescription())
-                .rating(recipeInput.getRating())
-                .picture(recipeInput.getPicture())
+//                .rating(3.5f)
                 .category(recipeInput.getCategory())
                 .ingredients(recipeInput.getIngredients())
                 .instructions(recipeInput.getInstructions())
-//               .user(user)
+               .user(userRepo.findById("7b95739d-efb7-4ea4-a635-243da3b61144").orElseThrow())
                 .createdAt(new Date())
-                .picture(recipeInput.getPicture())
+//                .picture(recipeInput.getPicture())
                 .category(recipeInput.getCategory())
                 .ingredients(recipeInput.getIngredients())
                 .instructions(recipeInput.getInstructions())
+//                .picture("/assets/recipes/rotisserie-chicken.jpg")
                 .build();
         System.out.println(recipe.getCreatedAt());
         recipeService.indexRecipe(recipe);

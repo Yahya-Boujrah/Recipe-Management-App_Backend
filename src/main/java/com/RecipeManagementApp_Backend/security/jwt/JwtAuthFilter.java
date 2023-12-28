@@ -38,15 +38,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String userEmail;
         System.out.println("Authorization header " + authHeader);
 
-        if (authHeader == null ){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")){
+            System.out.println("No JWT token found in request headers");
             filterChain.doFilter(request,response);
             return;
         }
 
         jwt = authHeader.substring(7);
+        System.out.println("Extracted JWT: " + jwt);
         //jwt = authHeader;
         userEmail = jwtService.extractUserName(jwt);
-        System.out.println(userEmail + " extract username");
+        System.out.println("Extracted Username from JWT: " + userEmail);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)){
