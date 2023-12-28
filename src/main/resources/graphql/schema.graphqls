@@ -6,9 +6,11 @@ type Query{
     recipesByCategory(category : String) : [Recipe]
     recipesFuzzySearch(title : String) : [Recipe]
     searchRecipesInFields(searchTerm :  String) : [Recipe]
-    recipesWithHigherRating(rating : Float) : [Recipe]
+    sortRecipesByRating(rating : Float) : [Recipe]
     recipesCreatedAfterDate(date : String) : [Recipe]
     top6RatedRecipes : [Recipe]
+    sortRecipesByDate : [Recipe]
+    getLatestRecipe : Recipe
 }
 
 type Mutation{

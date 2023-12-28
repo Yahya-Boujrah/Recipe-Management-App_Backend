@@ -97,8 +97,8 @@ public class RecipeController {
 
     @SneakyThrows
     @QueryMapping
-    public List<Recipe> recipesWithHigherRating(@Argument float rating){
-        return searchService.recipesWithHigherRating(rating);
+    public List<Recipe> sortRecipesByRating(@Argument float rating){
+        return searchService.sortRecipesByRating(rating);
     }
 
     @SneakyThrows
@@ -109,7 +109,19 @@ public class RecipeController {
 
     @SneakyThrows
     @QueryMapping
+    public List<Recipe> sortRecipesByDate(){
+        return searchService.sortRecipesByDate();
+    }
+
+    @SneakyThrows
+    @QueryMapping
     public List<Recipe> top6RatedRecipes(){
         return searchService.top6RatedRecipes();
+    }
+
+    @SneakyThrows
+    @QueryMapping
+    public Recipe getLatestRecipe(){
+        return searchService.getLatestRecipe();
     }
 }
