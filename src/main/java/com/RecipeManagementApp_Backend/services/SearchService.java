@@ -174,4 +174,5 @@ public class SearchService {
                 .map(Hit::source)
                 .collect(Collectors.toList());
     }
+
 }

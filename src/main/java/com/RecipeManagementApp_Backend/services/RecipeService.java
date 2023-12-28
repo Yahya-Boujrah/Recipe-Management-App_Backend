@@ -5,6 +5,7 @@ import co.elastic.clients.elasticsearch.core.*;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
 import com.RecipeManagementApp_Backend.entities.Recipe;
+import com.RecipeManagementApp_Backend.repos.RecipeRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class RecipeService {
 
     private final ElasticsearchClient elasticsearchClient;
+    private final RecipeRepo recipeRepo;
 
     public String indexRecipe( Recipe recipe ) throws IOException {
 
@@ -63,6 +65,11 @@ public class RecipeService {
                 .map(Hit::source)
                 .collect(Collectors.toList());
 
+    }
+
+    public List<Recipe> getUserRecipes(String id) {
+
+        return recipeRepo.finByUserId(id).orElseThrow();
     }
 
 }

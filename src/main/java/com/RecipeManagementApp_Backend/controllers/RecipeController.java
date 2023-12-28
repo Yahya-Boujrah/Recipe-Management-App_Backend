@@ -131,4 +131,10 @@ public class RecipeController {
         return searchService.matchAllRecipesServices();
     }
 
+    @SneakyThrows
+    @QueryMapping
+    public List<Recipe> getUserRecipes(@Argument String id){
+        return recipeService.getUserRecipes(id);
+    }
+
 }
