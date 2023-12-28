@@ -124,4 +124,11 @@ public class RecipeController {
     public Recipe getLatestRecipe(){
         return searchService.getLatestRecipe();
     }
+
+    @SneakyThrows
+    @QueryMapping
+    public List<Recipe> matchAllRecipesServices(){
+        return searchService.matchAllRecipesServices();
+    }
+
 }

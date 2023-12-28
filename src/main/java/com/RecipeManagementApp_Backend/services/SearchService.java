@@ -163,4 +163,15 @@ public class SearchService {
             return null;
         }
     }
+
+    //match all
+    public List<Recipe> matchAllRecipesServices() throws IOException {
+        Supplier<Query> supplier  = SearchUtil.matchAllsupplier();
+        SearchResponse<Recipe> searchResponse = elasticsearchClient.search(s->s.index("recipe").query(supplier.get()),Recipe.class);
+        System.out.println("elasticsearch query is "+supplier.get().toString());
+        return  searchResponse.hits().hits()
+                .stream()
+                .map(Hit::source)
+                .collect(Collectors.toList());
+    }
 }
