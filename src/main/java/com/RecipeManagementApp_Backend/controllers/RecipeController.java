@@ -133,8 +133,8 @@ public class RecipeController {
 
     @SneakyThrows
     @QueryMapping
-    public List<Recipe> getUserRecipes(@Argument String id){
-        return recipeService.getUserRecipes(id);
+    public List<Recipe> getUserRecipes(){
+        return recipeService.getUserRecipes();
     }
 
     @SneakyThrows

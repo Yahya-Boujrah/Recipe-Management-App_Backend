@@ -11,8 +11,12 @@ type Query{
     top6RatedRecipes : [Recipe]
     sortRecipesByDate : [Recipe]
     getLatestRecipe : Recipe
+<<<<<<< HEAD
     getUserRecipes (id : String): [Recipe]
     getCurrentUser : User
+=======
+    getUserRecipes : [Recipe]
+>>>>>>> 2a61cec92c254ed0a9c8ce95b51433a9f28a1100
 }
 
 type Mutation{

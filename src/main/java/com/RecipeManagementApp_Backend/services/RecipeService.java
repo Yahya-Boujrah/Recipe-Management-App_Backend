@@ -8,6 +8,7 @@ import com.RecipeManagementApp_Backend.entities.Recipe;
 import com.RecipeManagementApp_Backend.entities.User;
 import com.RecipeManagementApp_Backend.repos.RecipeRepo;
 import com.RecipeManagementApp_Backend.repos.UserRepo;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -71,7 +72,7 @@ public class RecipeService {
 
     }
 
-    public List<Recipe> getUserRecipes(String id) {
+    public List<Recipe> getUserRecipes() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println("email of current user " + email);
         User user = userRepo.findByEmail(email).orElseThrow();
