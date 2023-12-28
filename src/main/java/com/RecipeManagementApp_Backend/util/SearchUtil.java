@@ -1,9 +1,6 @@
 package com.RecipeManagementApp_Backend.util;
 
-import co.elastic.clients.elasticsearch._types.query_dsl.FuzzyQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.MultiMatchQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import lombok.val;
 
 import java.util.List;
@@ -38,5 +35,15 @@ public class SearchUtil {
     }
     public static Supplier<Query> supplierWithCategory(String categoryName){
         return ()-> Query.of(q-> q.match(matchQueryWithCategory(categoryName)));
+    }
+
+
+    //match all
+    public static Supplier<Query> matchAllsupplier(){
+        return ()->Query.of(q->q.matchAll(matchAllQuery()));
+    }
+    public static MatchAllQuery matchAllQuery(){
+        val  matchAllQuery = new MatchAllQuery.Builder();
+        return matchAllQuery.build();
     }
 }
