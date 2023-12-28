@@ -2,6 +2,7 @@ package com.RecipeManagementApp_Backend.controllers;
 
 import com.RecipeManagementApp_Backend.dto.RecipeInput;
 import com.RecipeManagementApp_Backend.entities.Recipe;
+import com.RecipeManagementApp_Backend.entities.User;
 import com.RecipeManagementApp_Backend.repos.UserRepo;
 import com.RecipeManagementApp_Backend.services.RecipeService;
 import com.RecipeManagementApp_Backend.services.SearchService;
@@ -128,6 +129,19 @@ public class RecipeController {
     @QueryMapping
     public List<Recipe> matchAllRecipesServices(){
         return searchService.matchAllRecipesServices();
+    }
+
+    @SneakyThrows
+    @QueryMapping
+    public List<Recipe> getUserRecipes(){
+        return recipeService.getUserRecipes();
+    }
+
+    @SneakyThrows
+    @QueryMapping
+    public User getCurrentUser(){
+        return recipeService.getCurrentUser();
+
     }
 
 }
