@@ -53,17 +53,17 @@ public class RecipeController {
                 .id(recipeInput.getId())
                 .title(recipeInput.getTitle())
                 .description(recipeInput.getDescription())
-//                .rating(3.5f)
+                .rating(4.8f)
                 .category(recipeInput.getCategory())
                 .ingredients(recipeInput.getIngredients())
                 .instructions(recipeInput.getInstructions())
-               .user(userRepo.findById("7b95739d-efb7-4ea4-a635-243da3b61144").orElseThrow())
+               .user(userRepo.findById("6e7f6913-8cd0-4bd0-a4d0-a8ee53522f7f").orElseThrow())
                 .createdAt(new Date())
 //                .picture(recipeInput.getPicture())
                 .category(recipeInput.getCategory())
                 .ingredients(recipeInput.getIngredients())
                 .instructions(recipeInput.getInstructions())
-//                .picture("/assets/recipes/rotisserie-chicken.jpg")
+                .picture("/assets/recipes/cookies.jpg")
                 .build();
         System.out.println(recipe.getCreatedAt());
         recipeService.indexRecipe(recipe);
@@ -90,15 +90,15 @@ public class RecipeController {
     @SneakyThrows
     @QueryMapping
     public List<Recipe> searchRecipesInFields(@Argument String searchTerm/*, @Argument List<String> fields*/){
-        List<String> fields = Arrays.asList("title", "description", "ingredients","instructions");
+        List<String> fields = Arrays.asList("title", "description","ingredients.description", "instructions.description");
 
         return searchService.searchRecipesInFields(searchTerm, fields);
     }
 
     @SneakyThrows
     @QueryMapping
-    public List<Recipe> sortRecipesByRating(@Argument float rating){
-        return searchService.sortRecipesByRating(rating);
+    public List<Recipe> sortRecipesByRating(){
+        return searchService.sortRecipesByRating();
     }
 
     @SneakyThrows

@@ -6,7 +6,7 @@ type Query{
     recipesByCategory(category : String) : [Recipe]
     recipesFuzzySearch(title : String) : [Recipe]
     searchRecipesInFields(searchTerm :  String) : [Recipe]
-    sortRecipesByRating(rating : Float) : [Recipe]
+    sortRecipesByRating : [Recipe]
     recipesCreatedAfterDate(date : String) : [Recipe]
     top6RatedRecipes : [Recipe]
     sortRecipesByDate : [Recipe]

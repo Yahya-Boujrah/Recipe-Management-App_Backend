@@ -86,7 +86,7 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<Recipe> sortRecipesByRating(float rating) throws IOException{
+    public List<Recipe> sortRecipesByRating() throws IOException{
         SearchResponse<Recipe> searchResponse = elasticsearchClient.search(s -> s
                 .index("recipe")
                 .query(q -> q
