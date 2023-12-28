@@ -46,7 +46,6 @@ public class RecipeController {
     public Recipe addRecipe(@Argument RecipeInput recipeInput){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println("email " + email);
-//        User user = userRepo.findByEmail(email).orElseThrow();
 
         System.out.println(recipeInput);
         Recipe recipe = Recipe.builder()
@@ -59,11 +58,10 @@ public class RecipeController {
                 .instructions(recipeInput.getInstructions())
                .user(userRepo.findById("6e7f6913-8cd0-4bd0-a4d0-a8ee53522f7f").orElseThrow())
                 .createdAt(new Date())
-//                .picture(recipeInput.getPicture())
+                .picture(recipeInput.getPicture())
                 .category(recipeInput.getCategory())
                 .ingredients(recipeInput.getIngredients())
                 .instructions(recipeInput.getInstructions())
-                .picture("/assets/recipes/Fried-Egg-Tortilla.jpeg")
                 .build();
         System.out.println(recipe.getCreatedAt());
         recipeService.indexRecipe(recipe);

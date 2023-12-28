@@ -10,6 +10,7 @@ import com.RecipeManagementApp_Backend.repos.UserRepo;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -74,11 +75,7 @@ public class RecipeService {
     }
 
     public List<Recipe> getUserRecipes() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("email of current user " + email);
-        User user = userRepo.findByEmail(email).orElseThrow();
-
-        return recipeRepo.finByUserId(user.getId()).orElseThrow();
+        return recipeRepo.findByUserId("6e7f6913-8cd0-4bd0-a4d0-a8ee53522f7f").orElseThrow();
     }
 
     public User getCurrentUser(){
