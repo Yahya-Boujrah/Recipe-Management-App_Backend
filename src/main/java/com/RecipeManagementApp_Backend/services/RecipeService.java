@@ -5,7 +5,11 @@ import co.elastic.clients.elasticsearch.core.*;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
 import com.RecipeManagementApp_Backend.entities.Recipe;
+import com.RecipeManagementApp_Backend.entities.User;
+import com.RecipeManagementApp_Backend.repos.RecipeRepo;
+import com.RecipeManagementApp_Backend.repos.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,6 +22,8 @@ import java.util.stream.Collectors;
 public class RecipeService {
 
     private final ElasticsearchClient elasticsearchClient;
+    private final RecipeRepo recipeRepo;
+    private final UserRepo userRepo;
 
     public String indexRecipe( Recipe recipe ) throws IOException {
 
@@ -63,6 +69,21 @@ public class RecipeService {
                 .map(Hit::source)
                 .collect(Collectors.toList());
 
+    }
+
+    public List<Recipe> getUserRecipes(String id) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("email of current user " + email);
+        User user = userRepo.findByEmail(email).orElseThrow();
+
+        return recipeRepo.finByUserId(user.getId()).orElseThrow();
+    }
+
+    public User getCurrentUser(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("email of current user " + email);
+
+        return userRepo.findByEmail(email).orElseThrow();
     }
 
 }

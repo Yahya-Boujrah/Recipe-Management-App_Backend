@@ -11,7 +11,8 @@ type Query{
     top6RatedRecipes : [Recipe]
     sortRecipesByDate : [Recipe]
     getLatestRecipe : Recipe
-    matchAllRecipesServices : [Recipe]
+    getUserRecipes (id : String): [Recipe]
+    getCurrentUser : User
 }
 
 type Mutation{
